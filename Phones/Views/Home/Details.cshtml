@@ -4,87 +4,86 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Phone Details</h1>
 
 <div>
     <h4>Phone</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Size)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Size)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Weight)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Weight)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ScreenSize)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ScreenSize)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ScreenDepth)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ScreenDepth)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Processor)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Processor)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Storage)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Storage)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.OperatingSystem)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.OperatingSystem)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImgUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImgUrl)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VidUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VidUrl)
-        </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Producer)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Producer.Id)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Producer.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Size)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Size)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Weight)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Weight)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ScreenSize)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ScreenSize)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ScreenDepth)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ScreenDepth)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Processor)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Processor)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Storage)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Storage)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OperatingSystem)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OperatingSystem)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ImgUrl)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ImgUrl)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.VidUrl)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VidUrl)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
