@@ -22,10 +22,29 @@ namespace Phones.Controllers
         }
 
         // GET: Phones
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            var phonesContext = _context.Phones.Include(p => p.Producer);
-            return View(await phonesContext.ToListAsync());
+            ViewData["PriceSortParm"] = string.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
+            ViewData["CurrentFilter"] = searchString;
+
+            var phones = _context.Phones.Include(p => p.Producer);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                phones = phones.Where(p => p.Name.Contains(searchString))
+                    .Include(p => p.Producer);
+            }
+
+            if (sortOrder == "price_desc")
+            {
+                phones = phones.OrderByDescending(p => p.Price).Include(p => p.Producer);
+            }
+            else
+            {
+                phones = phones.OrderBy(p => p.Price).Include(p => p.Producer);
+            }
+
+            return View(await phones.ToListAsync());
         }
 
         // GET: Phones/Details/5
@@ -45,11 +64,6 @@ namespace Phones.Controllers
             }
 
             return View(phone);
-        }
-
-        private bool PhoneExists(int id)
-        {
-            return _context.Phones.Any(e => e.Id == id);
         }
 
         public IActionResult Privacy()
