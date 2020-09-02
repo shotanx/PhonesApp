@@ -97,6 +97,12 @@ namespace Phones.Data
                     Price = 300m, ImgUrl = "https://someimgurl.com/", VidUrl = "https://somevidurl.com/"
                 }
             };
+
+            foreach (Phone p in phones)
+            {
+                context.Phones.Add(p);
+            }
+            context.SaveChanges();
         }
     }
 }
