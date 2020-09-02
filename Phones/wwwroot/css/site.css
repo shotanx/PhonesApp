@@ -24,6 +24,11 @@ a {
   border-color: #1861ac;
 }
 
+.imageCell {
+    max-height: 200px;
+    max-width: 150px;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
