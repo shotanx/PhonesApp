@@ -24,7 +24,10 @@ namespace Phones.Controllers
         // GET: Phones
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
+
             ViewData["PriceSortParm"] = string.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
+            ViewData["PriceSortParmNot"] = 
+                string.IsNullOrEmpty(sortOrder) ? "" : "price_desc"; // sachiroa rata sortirebam da filtraciam ertdroulad imushaos
             ViewData["CurrentFilter"] = searchString;
 
             var phones = _context.Phones.Include(p => p.Producer);
