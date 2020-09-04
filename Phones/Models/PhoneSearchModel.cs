@@ -22,8 +22,6 @@ namespace Phones.Models
         public string SortByPrice { get; set; }
         public string SortByName { get; set; }
         public string CurrentSort { get; set; }
-        // CurrentSort-is magivrad unda davamato ori: CurrentSortByPrice da CurrentSortByName
-        // businesslogic-shi .OrderBy().ThenBy()
 
 
         // Pagination
