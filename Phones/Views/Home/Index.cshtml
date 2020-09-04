@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Phones.Models.Phone>
+﻿@model PaginatedList<Phones.Models.Phone>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,8 +9,9 @@
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
-            <input type="hidden" name="sortOrder" value="@ViewData["PriceSortParmNot"]" />
-            Find by name: <input type="text" name="searchString" value="@ViewData["currentFilter"]" />
+            <input type="hidden" name="CurrentSort" value="@ViewData["CurrentSortParm"]" />
+            Find by name: <input type="text" name="FilterByName" value="@ViewData["NameFilter"]" />
+            ფასი -დან: <input type="text" name="FilterByPriceFrom" value="@ViewData["PriceFromFilter"]">
             <input type="submit" value="Search" class="btn btn-light" /> |
             <a asp-action="Index">Back to Full List</a>
         </p>
@@ -21,37 +22,66 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                <a asp-action="Index" asp-route-SortByName="@ViewData["NameSortParm"]"
+                   asp-route-CurrentFilterByName="@ViewData["NameFilter"]" asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]">
+                    @Html.DisplayNameFor(model => model[0].Name)
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Producer)
+                @Html.DisplayNameFor(model => model[0].Producer)
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSortParm"]" asp-route-searchString="@ViewData["currentFilter"]">@Html.DisplayNameFor(model => model.Price)</a>
+                <a asp-action="Index" asp-route-SortByPrice="@ViewData["PriceSortParm"]"
+                   asp-route-CurrentFilterByName="@ViewData["NameFilter"]" asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]">
+                    @Html.DisplayNameFor(model => model[0].Price)
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImgUrl)
+                @Html.DisplayNameFor(model => model[0].ImgUrl)
             </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">
-                    @Html.DisplayFor(modelItem => item.Name)
-                </a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Producer.ProducerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <img src="@item.ImgUrl" class="imageCell" />
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producer.ProducerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <img src="@item.ImgUrl" class="imageCell" />
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-CurrentSort="@ViewData["CurrentSortParm"]"
+   asp-route-PageIndex="@(Model.PageIndex - 1)"
+   asp-route-CurrentFilterByName="@ViewData["NameFilter"]"
+   asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]"
+   class="btn btn-light @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-CurrentSort="@ViewData["CurrentSortParm"]"
+   asp-route-PageIndex="@(Model.PageIndex + 1)"
+   asp-route-CurrentFilterByName="@ViewData["NameFilter"]"
+   asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]"
+   class="btn btn-light @nextDisabled">
+    Next
+</a>

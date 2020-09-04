@@ -22,32 +22,48 @@ namespace Phones.Controllers
         }
 
         // GET: Phones
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(PhoneSearchModel searchModel)
         {
+            var business = new PhoneBusinessLogic(_context);
+            var model = business.GetProducts(searchModel);
 
-            ViewData["PriceSortParm"] = string.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
-            ViewData["PriceSortParmNot"] = 
-                string.IsNullOrEmpty(sortOrder) ? "" : "price_desc"; // sachiroa rata sortirebam da filtraciam ertdroulad imushaos
-            ViewData["CurrentFilter"] = searchString;
+            ViewData["PriceSortParm"] = searchModel.SortByPrice;
+            ViewData["NameSortParm"] = searchModel.SortByName;
+            ViewData["CurrentSortParm"] = searchModel.CurrentSort;
 
-            var phones = _context.Phones.Include(p => p.Producer);
+            ViewData["NameFilter"] = searchModel.FilterByName;
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                phones = phones.Where(p => p.Name.Contains(searchString))
-                    .Include(p => p.Producer);
-            }
+            ViewData["PriceFromFilter"] = searchModel.FilterByPriceFrom;
 
-            if (sortOrder == "price_desc")
-            {
-                phones = phones.OrderByDescending(p => p.Price).Include(p => p.Producer);
-            }
-            else
-            {
-                phones = phones.OrderBy(p => p.Price).Include(p => p.Producer);
-            }
 
-            return View(await phones.ToListAsync());
+            //ViewData["PriceSortParm"] = string.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
+            //ViewData["PriceSortParmNot"] = 
+            //    string.IsNullOrEmpty(sortOrder) ? "" : "price_desc"; // sachiroa rata sortirebam da filtraciam ertdroulad imushaos
+            //ViewData["CurrentFilter"] = searchString;
+
+            //var phones = _context.Phones.Include(p => p.Producer);
+
+            //if (!string.IsNullOrEmpty(searchString))
+            //{
+            //    phones = phones.Where(p => p.Name.Contains(searchString))
+            //        .Include(p => p.Producer);
+            //}
+
+            //if (sortOrder == "price_desc")
+            //{
+            //    phones = phones.OrderByDescending(p => p.Price).Include(p => p.Producer);
+            //}
+            //else
+            //{
+            //    phones = phones.OrderBy(p => p.Price).Include(p => p.Producer);
+            //}
+
+
+
+
+            //return View(await phones.ToListAsync());
+            //return ((IActionResult)model);
+            return View(await PaginatedList<Phone>.CreateAsync(model, searchModel));
         }
 
         // GET: Phones/Details/5
