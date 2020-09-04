@@ -34,36 +34,12 @@ namespace Phones.Controllers
             ViewData["NameFilter"] = searchModel.FilterByName;
 
             ViewData["PriceFromFilter"] = searchModel.FilterByPriceFrom;
+            ViewData["PriceToFilter"] = searchModel.FilterByPriceTo;
 
-            //searchModel.FilterByProducerName = "Sony";
             ViewData["ProducerNameFilter"] = searchModel.FilterByProducerName;
             ViewBag.ProducerNames = searchModel.ProducerNames;
 
 
-            //ViewData["PriceSortParm"] = string.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
-            //ViewData["PriceSortParmNot"] = 
-            //    string.IsNullOrEmpty(sortOrder) ? "" : "price_desc"; // sachiroa rata sortirebam da filtraciam ertdroulad imushaos
-            //ViewData["CurrentFilter"] = searchString;
-
-            //var phones = _context.Phones.Include(p => p.Producer);
-
-            //if (!string.IsNullOrEmpty(searchString))
-            //{
-            //    phones = phones.Where(p => p.Name.Contains(searchString))
-            //        .Include(p => p.Producer);
-            //}
-
-            //if (sortOrder == "price_desc")
-            //{
-            //    phones = phones.OrderByDescending(p => p.Price).Include(p => p.Producer);
-            //}
-            //else
-            //{
-            //    phones = phones.OrderBy(p => p.Price).Include(p => p.Producer);
-            //}
-
-            //return View(await phones.ToListAsync());
-            //return ((IActionResult)model);
             return View(await PaginatedList<Phone>.CreateAsync(model, searchModel));
         }
 

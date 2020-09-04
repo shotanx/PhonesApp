@@ -12,7 +12,8 @@ namespace Phones.Models
         public string CurrentFilterByName { get; set; }
         public int? FilterByPriceFrom { get; set; }
         public int? CurrentFilterByPriceFrom { get; set; }
-        //public int? PriceTo { get; set; }
+        public int? FilterByPriceTo { get; set; }
+        public int? CurrentFilterByPriceTo { get; set; }
         public string FilterByProducerName { get; set; }
         public string CurrentFilterByProducerName { get; set; }
         public SelectList ProducerNames { get; set; }
