@@ -70,6 +70,7 @@
     </tbody>
 </table>
 
+<!-- buttons: < 1 2 3 > -->
 @{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
@@ -77,21 +78,59 @@
 
 <a asp-action="Index"
    asp-route-CurrentSort="@ViewData["CurrentSortParm"]"
-   asp-route-PageIndex="@(Model.PageIndex - 1)"
    asp-route-CurrentFilterByName="@ViewData["NameFilter"]"
    asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]"
    asp-route-CurrentFilterByPriceTo="@ViewData["PriceToFilter"]"
    asp-route-CurrentFilterByProducerName="@ViewData["ProducerNameFilter"]"
+   asp-route-PageIndex="@(Model.PageIndex - 1)"
    class="btn btn-light @prevDisabled">
-    Previous
+    <
 </a>
+@if (Model.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-CurrentSort="@ViewData["CurrentSortParm"]"
+       asp-route-CurrentFilterByName="@ViewData["NameFilter"]"
+       asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]"
+       asp-route-CurrentFilterByPriceTo="@ViewData["PriceToFilter"]"
+       asp-route-CurrentFilterByProducerName="@ViewData["ProducerNameFilter"]"
+       asp-route-PageIndex="@(Model.PageIndex - 1)"
+       class="btn btn-light">
+        @(Model.PageIndex - 1)
+    </a>
+}
+
 <a asp-action="Index"
    asp-route-CurrentSort="@ViewData["CurrentSortParm"]"
-   asp-route-PageIndex="@(Model.PageIndex + 1)"
    asp-route-CurrentFilterByName="@ViewData["NameFilter"]"
    asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]"
    asp-route-CurrentFilterByPriceTo="@ViewData["PriceToFilter"]"
    asp-route-CurrentFilterByProducerName="@ViewData["ProducerNameFilter"]"
+   asp-route-PageIndex="@(Model.PageIndex)"
+   class="btn btn-light disabled">
+    @(Model.PageIndex)
+</a>
+
+@if (Model.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-CurrentSort="@ViewData["CurrentSortParm"]"
+       asp-route-CurrentFilterByName="@ViewData["NameFilter"]"
+       asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]"
+       asp-route-CurrentFilterByPriceTo="@ViewData["PriceToFilter"]"
+       asp-route-CurrentFilterByProducerName="@ViewData["ProducerNameFilter"]"
+       asp-route-PageIndex="@(Model.PageIndex + 1)"
+       class="btn btn-light">
+        @(Model.PageIndex + 1)
+    </a>
+}
+<a asp-action="Index"
+   asp-route-CurrentSort="@ViewData["CurrentSortParm"]"
+   asp-route-CurrentFilterByName="@ViewData["NameFilter"]"
+   asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]"
+   asp-route-CurrentFilterByPriceTo="@ViewData["PriceToFilter"]"
+   asp-route-CurrentFilterByProducerName="@ViewData["ProducerNameFilter"]"
+   asp-route-PageIndex="@(Model.PageIndex + 1)"
    class="btn btn-light @nextDisabled">
-    Next
+    >
 </a>
