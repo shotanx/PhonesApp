@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +13,9 @@ namespace Phones.Models
         public int? FilterByPriceFrom { get; set; }
         public int? CurrentFilterByPriceFrom { get; set; }
         //public int? PriceTo { get; set; }
+        public string FilterByProducerName { get; set; }
+        public string CurrentFilterByProducerName { get; set; }
+        public SelectList ProducerNames { get; set; }
 
 
         public string SortByPrice { get; set; }

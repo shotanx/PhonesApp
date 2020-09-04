@@ -9,6 +9,9 @@
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
+            <select name="FilterByProducerName" asp-items="ViewBag.ProducerNames" value="@ViewData["ProducerNameFilter"]">
+                <option value="">-- მწარმოებელი --</option>
+            </select>
             <input type="hidden" name="CurrentSort" value="@ViewData["CurrentSortParm"]" />
             Find by name: <input type="text" name="FilterByName" value="@ViewData["NameFilter"]" />
             ფასი -დან: <input type="text" name="FilterByPriceFrom" value="@ViewData["PriceFromFilter"]">
@@ -23,7 +26,8 @@
         <tr>
             <th>
                 <a asp-action="Index" asp-route-SortByName="@ViewData["NameSortParm"]"
-                   asp-route-CurrentFilterByName="@ViewData["NameFilter"]" asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]">
+                   asp-route-CurrentFilterByName="@ViewData["NameFilter"]" asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]"
+                   asp-route-CurrentFilterByProducerName="@ViewData["ProducerNameFilter"]">
                     @Html.DisplayNameFor(model => model[0].Name)
                 </a>
             </th>
@@ -32,7 +36,8 @@
             </th>
             <th>
                 <a asp-action="Index" asp-route-SortByPrice="@ViewData["PriceSortParm"]"
-                   asp-route-CurrentFilterByName="@ViewData["NameFilter"]" asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]">
+                   asp-route-CurrentFilterByName="@ViewData["NameFilter"]" asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]"
+                   asp-route-CurrentFilterByProducerName="@ViewData["ProducerNameFilter"]">
                     @Html.DisplayNameFor(model => model[0].Price)
                 </a>
             </th>
@@ -74,6 +79,7 @@
    asp-route-PageIndex="@(Model.PageIndex - 1)"
    asp-route-CurrentFilterByName="@ViewData["NameFilter"]"
    asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]"
+   asp-route-CurrentFilterByProducerName="@ViewData["ProducerNameFilter"]"
    class="btn btn-light @prevDisabled">
     Previous
 </a>
@@ -82,6 +88,7 @@
    asp-route-PageIndex="@(Model.PageIndex + 1)"
    asp-route-CurrentFilterByName="@ViewData["NameFilter"]"
    asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]"
+   asp-route-CurrentFilterByProducerName="@ViewData["ProducerNameFilter"]"
    class="btn btn-light @nextDisabled">
     Next
 </a>

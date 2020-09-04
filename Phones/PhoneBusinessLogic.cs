@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Phones.Data;
 using Phones.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Phones
 {
@@ -24,7 +25,8 @@ namespace Phones
 
 
             // If new search term comes in, then the PageIndex should reset to 1
-            if (searchModel.FilterByName != null || searchModel.FilterByPriceFrom != null)
+            // Every new Filter (price, name, producername, etc.) needs to be added here
+            if (searchModel.FilterByName != null || searchModel.FilterByPriceFrom != null || searchModel.FilterByProducerName != null)
             {
                 searchModel.PageIndex = 1;
             }
@@ -32,9 +34,15 @@ namespace Phones
             {
                 searchModel.FilterByName = searchModel.CurrentFilterByName;
                 searchModel.FilterByPriceFrom = searchModel.CurrentFilterByPriceFrom;
+                searchModel.FilterByProducerName = searchModel.CurrentFilterByProducerName;
             }
 
-
+            // Producer names dropdown
+            IQueryable<string> producerNameQuery = from p in Context.Producers
+                                                   orderby p.ProducerName
+                                                   select p.ProducerName;
+            List<string> ProducerNames = producerNameQuery.Distinct().ToList();
+            searchModel.ProducerNames = new SelectList(ProducerNames, searchModel.FilterByProducerName);
 
 
             if (searchModel != null)
@@ -43,6 +51,7 @@ namespace Phones
                 if (!string.IsNullOrEmpty(searchModel.FilterByName))
                     phonesQuery = phonesQuery.Where(p => p.Name.Contains(searchModel.FilterByName));
 
+                // Filter by PriceFrom
                 if (searchModel.FilterByPriceFrom.HasValue)
                     phonesQuery = phonesQuery.Where(p => p.Price >= searchModel.FilterByPriceFrom);
 
@@ -81,7 +90,19 @@ namespace Phones
                     searchModel.SortByName = "name_desc";
                     searchModel.CurrentSort = "name_asc";
                 }
+
+                // Filter by ProducerName dropdown (SelectList)
+                foreach (string name in ProducerNames)
+                {
+                    if (searchModel.FilterByProducerName == name)
+                    {
+                        phonesQuery = phonesQuery.Where(p => p.Producer.ProducerName == name);
+                        break;
+                    }
+                }
             }
+
+
 
             return phonesQuery;
             //List<Phone> result = await phonesQuery.Include(p => p.Producer).ToListAsync();

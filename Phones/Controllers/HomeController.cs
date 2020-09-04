@@ -35,6 +35,10 @@ namespace Phones.Controllers
 
             ViewData["PriceFromFilter"] = searchModel.FilterByPriceFrom;
 
+            //searchModel.FilterByProducerName = "Sony";
+            ViewData["ProducerNameFilter"] = searchModel.FilterByProducerName;
+            ViewBag.ProducerNames = searchModel.ProducerNames;
+
 
             //ViewData["PriceSortParm"] = string.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
             //ViewData["PriceSortParmNot"] = 
@@ -57,9 +61,6 @@ namespace Phones.Controllers
             //{
             //    phones = phones.OrderBy(p => p.Price).Include(p => p.Producer);
             //}
-
-
-
 
             //return View(await phones.ToListAsync());
             //return ((IActionResult)model);
