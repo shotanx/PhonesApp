@@ -16,10 +16,18 @@ namespace Phones
             Context = context;
         }
 
-        public IQueryable<Phone> GetProducts(PhoneSearchModel searchModel)
+        public IQueryable<PhoneDTO> GetProducts(PhoneSearchModel searchModel)
         {
-            IQueryable<Phone> phonesQuery = Context.Phones.Include(p => p.Producer).AsQueryable().AsNoTracking();
-
+            //IQueryable<Phone> phonesQuery = Context.Phones.Include(p => p.Producer).AsQueryable().AsNoTracking();
+            IQueryable<PhoneDTO> phonesQuery = Context.Phones
+                .Select(p => new PhoneDTO
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    ProducerName = p.Producer.ProducerName,
+                    Price = p.Price,
+                    ImgUrl = p.ImgUrl
+                });
 
             // If new search term comes in, then the PageIndex should reset to 1
             // Every new Filter (price, name, producername, etc.) needs to be added here
@@ -62,7 +70,7 @@ namespace Phones
             {
                 if (searchModel.FilterByProducerName == name)
                 {
-                    phonesQuery = phonesQuery.Where(p => p.Producer.ProducerName == name);
+                    phonesQuery = phonesQuery.Where(p => p.ProducerName == name);
                     break;
                 }
             }
@@ -102,7 +110,6 @@ namespace Phones
                 searchModel.SortByName = "name_desc";
                 searchModel.CurrentSort = "name_asc";
             }
-
 
             return phonesQuery;
         }

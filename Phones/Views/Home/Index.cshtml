@@ -1,4 +1,4 @@
-﻿@model PaginatedList<Phones.Models.Phone>
+﻿@model PaginatedList<Phones.Models.PhoneDTO>
 
 @{
     ViewData["Title"] = "Index";
@@ -33,7 +33,7 @@
                 </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].Producer)
+                @Html.DisplayNameFor(model => model[0].ProducerName)
             </th>
             <th>
                 <a asp-action="Index" asp-route-SortByPrice="@ViewData["PriceSortParm"]" asp-route-CurrentFilterByName="@ViewData["NameFilter"]"
@@ -57,7 +57,7 @@
                     </a>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Producer.ProducerName)
+                    @Html.DisplayFor(modelItem => item.ProducerName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)

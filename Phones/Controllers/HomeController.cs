@@ -35,7 +35,7 @@ namespace Phones.Controllers
             ViewBag.ProducerNames = searchModel.ProducerNames;
 
 
-            return View(await PaginatedList<Phone>.CreateAsync(model, searchModel));
+            return View(await PaginatedList<PhoneDTO>.CreateAsync(model, searchModel));
         }
 
         // GET: Phones/Details/5

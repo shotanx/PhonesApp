@@ -22,7 +22,9 @@ namespace Phones.Models
         [DataType(DataType.Currency)]
         [DisplayFormat(DataFormatString = "{0:C2}")]
         public decimal Price { get; set; }
+        [Display(Name = "Image")]
         public string ImgUrl { get; set; }
+        [Display(Name = "Video Url")]
         public string VidUrl { get; set; }
 
         public Producer Producer { get; set; } // navigation property
