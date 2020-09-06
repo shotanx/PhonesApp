@@ -20,7 +20,7 @@ namespace Phones.Controllers
         public async Task<IActionResult> Index(PhoneSearchModel searchModel)
         {
             var business = new PhoneBusinessLogic(_context);
-            var model = business.GetProducts(searchModel);
+            var model = await business.GetProductsAsync(searchModel);
 
             ViewData["PriceSortParm"] = searchModel.SortByPrice;
             ViewData["NameSortParm"] = searchModel.SortByName;
@@ -35,7 +35,7 @@ namespace Phones.Controllers
             ViewBag.ProducerNames = searchModel.ProducerNames;
 
 
-            return View(await PaginatedList<PhoneDTO>.CreateAsync(model, searchModel));
+            return View(model);
         }
 
         // GET: Phones/Details/5

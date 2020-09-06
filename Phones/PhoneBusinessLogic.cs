@@ -4,6 +4,7 @@ using System.Linq;
 using Phones.Data;
 using Phones.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Threading.Tasks;
 
 namespace Phones
 {
@@ -16,9 +17,8 @@ namespace Phones
             Context = context;
         }
 
-        public IQueryable<PhoneDTO> GetProducts(PhoneSearchModel searchModel)
+        public async Task<List<PhoneDTO>> GetProductsAsync(PhoneSearchModel searchModel)
         {
-            //IQueryable<Phone> phonesQuery = Context.Phones.Include(p => p.Producer).AsQueryable().AsNoTracking();
             IQueryable<PhoneDTO> phonesQuery = Context.Phones
                 .Select(p => new PhoneDTO
                 {
@@ -27,7 +27,7 @@ namespace Phones
                     ProducerName = p.Producer.ProducerName,
                     Price = p.Price,
                     ImgUrl = p.ImgUrl
-                });
+                }).AsNoTracking();
 
             // If new search term comes in, then the PageIndex should reset to 1
             // Every new Filter (price, name, producername, etc.) needs to be added here
@@ -111,7 +111,9 @@ namespace Phones
                 searchModel.CurrentSort = "name_asc";
             }
 
-            return phonesQuery;
+            PaginatedList<PhoneDTO> model = await PaginatedList<PhoneDTO>.CreateAsync(phonesQuery, searchModel);
+
+            return model;
         }
     }
 }
