@@ -8,6 +8,8 @@ namespace Phones.Models
         [Display(Name = "დასახელება")]
         public string Name { get; set; }
         [Display(Name = "ფასი")]
+        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:0.##} ლარი")]
         public decimal Price { get; set; }
         [Display(Name = "მწარმოებელი")]
         public string ProducerName { get; set; }
