@@ -17,9 +17,12 @@ namespace Phones
             Context = context;
         }
 
+        IQueryable<PhoneDTO> phonesQuery;
+        PhoneSearchModel searchModel;
+
         public async Task<List<PhoneDTO>> GetProductsAsync(PhoneSearchModel searchModel)
         {
-            IQueryable<PhoneDTO> phonesQuery = Context.Phones
+            phonesQuery = Context.Phones
                 .Select(p => new PhoneDTO
                 {
                     Id = p.Id,
@@ -28,6 +31,8 @@ namespace Phones
                     Price = p.Price,
                     ImgUrl = p.ImgUrl
                 }).AsNoTracking();
+
+            this.searchModel = searchModel;
 
             // If new search term comes in, then the PageIndex should reset to 1
             // Every new Filter (price, name, producername, etc.) needs to be added here
@@ -44,26 +49,50 @@ namespace Phones
                 searchModel.FilterByProducerName = searchModel.CurrentFilterByProducerName;
             }
 
-            // Producer names dropdown
+            FilterByName();
+            FilterByPriceFrom();
+            FilterByPriceTo();
+            FilterByProducerName();
+            SortByPrice();
+            SortByName();
+
+            PaginatedList<PhoneDTO> model = await PaginatedList<PhoneDTO>.CreateAsync(phonesQuery, searchModel);
+
+            return model;
+        }
+
+
+
+
+        private void FilterByName()
+        {
+            // Filter by name
+            if (!string.IsNullOrEmpty(searchModel.FilterByName))
+                phonesQuery = phonesQuery.Where(p => p.Name.Contains(searchModel.FilterByName));
+        }
+
+        private void FilterByPriceFrom()
+        {
+            // Filter by PriceFrom
+            if (searchModel.FilterByPriceFrom.HasValue)
+                phonesQuery = phonesQuery.Where(p => p.Price >= searchModel.FilterByPriceFrom);
+        }
+
+        private void FilterByPriceTo()
+        {
+            // Filter by PriceTo
+            if (searchModel.FilterByPriceTo.HasValue)
+                phonesQuery = phonesQuery.Where(p => p.Price <= searchModel.FilterByPriceTo);
+        }
+
+        private void FilterByProducerName()
+        {
+            // Create Producer names dropdown
             IQueryable<string> producerNameQuery = from p in Context.Producers
                                                    orderby p.ProducerName
                                                    select p.ProducerName;
             List<string> ProducerNames = producerNameQuery.Distinct().ToList();
             searchModel.ProducerNames = new SelectList(ProducerNames, searchModel.FilterByProducerName);
-
-
-
-            // Filter by name
-            if (!string.IsNullOrEmpty(searchModel.FilterByName))
-                phonesQuery = phonesQuery.Where(p => p.Name.Contains(searchModel.FilterByName));
-
-            // Filter by PriceFrom
-            if (searchModel.FilterByPriceFrom.HasValue)
-                phonesQuery = phonesQuery.Where(p => p.Price >= searchModel.FilterByPriceFrom);
-
-            // Filter by PriceTo
-            if (searchModel.FilterByPriceTo.HasValue)
-                phonesQuery = phonesQuery.Where(p => p.Price <= searchModel.FilterByPriceTo);
 
             // Filter by ProducerName dropdown (SelectList)
             foreach (string name in ProducerNames)
@@ -74,7 +103,10 @@ namespace Phones
                     break;
                 }
             }
+        }
 
+        private void SortByPrice()
+        {
             // Sort by price
             if (string.IsNullOrEmpty(searchModel.SortByPrice) && string.IsNullOrEmpty(searchModel.CurrentSort))
             {
@@ -92,7 +124,10 @@ namespace Phones
                 searchModel.SortByPrice = "price_desc";
                 searchModel.CurrentSort = "price_asc";
             }
+        }
 
+        private void SortByName()
+        {
             // Sort by name
             if (string.IsNullOrEmpty(searchModel.SortByName) && string.IsNullOrEmpty(searchModel.CurrentSort))
             {
@@ -110,10 +145,6 @@ namespace Phones
                 searchModel.SortByName = "name_desc";
                 searchModel.CurrentSort = "name_asc";
             }
-
-            PaginatedList<PhoneDTO> model = await PaginatedList<PhoneDTO>.CreateAsync(phonesQuery, searchModel);
-
-            return model;
         }
     }
 }
