@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Phones.BusinessLogic;
 using Phones.Data;
 using Phones.Models;
 
@@ -9,17 +10,17 @@ namespace Phones.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly PhonesContext _context;
+        private readonly IDatabaseAccess _assets;
 
-        public HomeController(PhonesContext context)
+        public HomeController(IDatabaseAccess assets)
         {
-            _context = context;
+            _assets = assets;
         }
 
         // GET: Phones
         public async Task<IActionResult> Index(PhoneSearchModel searchModel)
         {
-            var business = new PhoneBusinessLogic(_context);
+            var business = new PhoneBusinessLogic(_assets);
             var model = await business.GetProductsAsync(searchModel);
 
             ViewData["PriceSortParm"] = searchModel.SortByPrice;
@@ -32,7 +33,7 @@ namespace Phones.Controllers
             ViewData["PriceToFilter"] = searchModel.FilterByPriceTo;
 
             ViewData["ProducerNameFilter"] = searchModel.FilterByProducerName;
-            ViewBag.ProducerNames = searchModel.ProducerNames;
+            ViewBag.ProducerNamesDropdown = searchModel.ProducerNamesDropdown;
 
 
             return View(model);
@@ -46,9 +47,8 @@ namespace Phones.Controllers
                 return NotFound();
             }
 
-            var phone = await _context.Phones
-                .Include(p => p.Producer)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var phone = await _assets.GetPhoneByIdAsync((int)id);
+
             if (phone == null)
             {
                 return NotFound();

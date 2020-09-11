@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Phones.BusinessLogic;
 using Phones.Data;
 
 namespace Phones
@@ -21,6 +22,8 @@ namespace Phones
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddScoped<IDatabaseAccess, DatabaseAccessService>();
 
             services.AddDbContext<PhonesContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

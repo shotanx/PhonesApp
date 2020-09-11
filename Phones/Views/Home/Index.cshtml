@@ -9,7 +9,7 @@
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
-            <select name="FilterByProducerName" asp-items="ViewBag.ProducerNames" value="@ViewData["ProducerNameFilter"]">
+            <select name="FilterByProducerName" asp-items="ViewBag.ProducerNamesDropdown" value="@ViewData["ProducerNameFilter"]">
                 <option value="">-- მწარმოებელი --</option>
             </select>
             <input type="hidden" name="CurrentSort" value="@ViewData["CurrentSortParm"]" />

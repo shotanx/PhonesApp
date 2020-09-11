@@ -36,10 +36,10 @@ namespace Phones
             }
         }
 
-        public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, PhoneSearchModel searchModel)
+        public static async Task<PaginatedList<T>> CreateAsync(List<T> source, PhoneSearchModel searchModel)
         {
-            var count = await source.CountAsync();
-            var items = await source.Skip((searchModel.PageIndex - 1) * searchModel.PageSize).Take(searchModel.PageSize).ToListAsync();
+            var count = source.Count();
+            var items = source.Skip((searchModel.PageIndex - 1) * searchModel.PageSize).Take(searchModel.PageSize).ToList();
             return new PaginatedList<T>(items, count, searchModel.PageIndex, searchModel.PageSize);
         }
     }
