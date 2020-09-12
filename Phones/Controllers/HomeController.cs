@@ -1,9 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Phones.BusinessLogic;
-using Phones.Data;
 using Phones.Models;
 
 namespace Phones.Controllers
@@ -33,7 +31,7 @@ namespace Phones.Controllers
             ViewData["PriceToFilter"] = searchModel.FilterByPriceTo;
 
             ViewData["ProducerNameFilter"] = searchModel.FilterByProducerName;
-            ViewBag.ProducerNamesDropdown = searchModel.ProducerNamesDropdown;
+            ViewBag.ProducerNamesDropdown = model.ProducerNamesDropdown;
 
 
             return View(model);

@@ -1,8 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Phones.Models
 {
@@ -15,12 +12,12 @@ namespace Phones.Models
         {
             this.phonesQuery = phonesQuery;
             this.searchModel = searchModel;
-            //SetPageIndex(); // aqedan ar mushaobs da amitom PhoneSearchModel-idan vidzaxeb
+            SetPageIndex();
         }
 
         public void SetPageIndex()
         {
-            // If new search term comes in, then the PageIndex should reset to 1
+            // If a new search term comes in, then the PageIndex should reset to 1
             // Every new Filter (price, name, producername, etc.) needs to be added here
             if (searchModel.FilterByName != null || searchModel.FilterByPriceFrom != null ||
                 searchModel.FilterByPriceTo != null || searchModel.FilterByProducerName != null)
@@ -59,13 +56,9 @@ namespace Phones.Models
 
         private void FilterByProducerName()
         {
-            foreach (string name in searchModel.ProducerNames)
+            if (!string.IsNullOrWhiteSpace(searchModel.FilterByProducerName))
             {
-                if (searchModel.FilterByProducerName == name)
-                {
-                    phonesQuery = phonesQuery.Where(p => p.ProducerName == name);
-                    break;
-                }
+                phonesQuery = phonesQuery.Where(p => p.ProducerName == searchModel.FilterByProducerName);
             }
         }
 

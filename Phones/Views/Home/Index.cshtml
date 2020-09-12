@@ -1,4 +1,4 @@
-﻿@model PaginatedList<Phones.Models.PhoneDTO>
+﻿@model HomeIndexViewModel
 
 @{
     ViewData["Title"] = "Phone List";
@@ -29,26 +29,26 @@
                 <a asp-action="Index" asp-route-SortByName="@ViewData["NameSortParm"]" asp-route-CurrentFilterByName="@ViewData["NameFilter"]"
                    asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]" asp-route-CurrentFilterByPriceTo="@ViewData["PriceToFilter"]"
                    asp-route-CurrentFilterByProducerName="@ViewData["ProducerNameFilter"]">
-                    @Html.DisplayNameFor(model => model[0].Name)
+                    @Html.DisplayNameFor(model => model.PaginatedList[0].Name)
                 </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].ProducerName)
+                @Html.DisplayNameFor(model => model.PaginatedList[0].ProducerName)
             </th>
             <th>
                 <a asp-action="Index" asp-route-SortByPrice="@ViewData["PriceSortParm"]" asp-route-CurrentFilterByName="@ViewData["NameFilter"]"
                    asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]" asp-route-CurrentFilterByPriceTo="@ViewData["PriceToFilter"]"
                    asp-route-CurrentFilterByProducerName="@ViewData["ProducerNameFilter"]">
-                    @Html.DisplayNameFor(model => model[0].Price)
+                    @Html.DisplayNameFor(model => model.PaginatedList[0].Price)
                 </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].ImgUrl)
+                @Html.DisplayNameFor(model => model.PaginatedList[0].ImgUrl)
             </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.PaginatedList)
         {
             <tr>
                 <td>
@@ -72,8 +72,8 @@
 
 <!-- buttons: < 1 2 3 > -->
 @{
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var prevDisabled = !Model.PaginatedList.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.PaginatedList.HasNextPage ? "disabled" : "";
 }
 
 <a asp-action="Index"
@@ -82,11 +82,11 @@
    asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]"
    asp-route-CurrentFilterByPriceTo="@ViewData["PriceToFilter"]"
    asp-route-CurrentFilterByProducerName="@ViewData["ProducerNameFilter"]"
-   asp-route-PageIndex="@(Model.PageIndex - 1)"
+   asp-route-PageIndex="@(Model.PaginatedList.PageIndex - 1)"
    class="btn btn-light @prevDisabled">
     <
 </a>
-@if (Model.HasPreviousPage)
+@if (Model.PaginatedList.HasPreviousPage)
 {
     <a asp-action="Index"
        asp-route-CurrentSort="@ViewData["CurrentSortParm"]"
@@ -94,9 +94,9 @@
        asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]"
        asp-route-CurrentFilterByPriceTo="@ViewData["PriceToFilter"]"
        asp-route-CurrentFilterByProducerName="@ViewData["ProducerNameFilter"]"
-       asp-route-PageIndex="@(Model.PageIndex - 1)"
+       asp-route-PageIndex="@(Model.PaginatedList.PageIndex - 1)"
        class="btn btn-light">
-        @(Model.PageIndex - 1)
+        @(Model.PaginatedList.PageIndex - 1)
     </a>
 }
 
@@ -106,12 +106,12 @@
    asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]"
    asp-route-CurrentFilterByPriceTo="@ViewData["PriceToFilter"]"
    asp-route-CurrentFilterByProducerName="@ViewData["ProducerNameFilter"]"
-   asp-route-PageIndex="@(Model.PageIndex)"
+   asp-route-PageIndex="@(Model.PaginatedList.PageIndex)"
    class="btn btn-light disabled">
-    @(Model.PageIndex)
+    @(Model.PaginatedList.PageIndex)
 </a>
 
-@if (Model.HasNextPage)
+@if (Model.PaginatedList.HasNextPage)
 {
     <a asp-action="Index"
        asp-route-CurrentSort="@ViewData["CurrentSortParm"]"
@@ -119,9 +119,9 @@
        asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]"
        asp-route-CurrentFilterByPriceTo="@ViewData["PriceToFilter"]"
        asp-route-CurrentFilterByProducerName="@ViewData["ProducerNameFilter"]"
-       asp-route-PageIndex="@(Model.PageIndex + 1)"
+       asp-route-PageIndex="@(Model.PaginatedList.PageIndex + 1)"
        class="btn btn-light">
-        @(Model.PageIndex + 1)
+        @(Model.PaginatedList.PageIndex + 1)
     </a>
 }
 <a asp-action="Index"
@@ -130,7 +130,7 @@
    asp-route-CurrentFilterByPriceFrom="@ViewData["PriceFromFilter"]"
    asp-route-CurrentFilterByPriceTo="@ViewData["PriceToFilter"]"
    asp-route-CurrentFilterByProducerName="@ViewData["ProducerNameFilter"]"
-   asp-route-PageIndex="@(Model.PageIndex + 1)"
+   asp-route-PageIndex="@(Model.PaginatedList.PageIndex + 1)"
    class="btn btn-light @nextDisabled">
     >
 </a>

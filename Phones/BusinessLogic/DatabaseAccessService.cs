@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Phones.Data;
 using Phones.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,9 +20,9 @@ namespace Phones.BusinessLogic
         //    throw new NotImplementedException();
         //}
 
-        public List<PhoneDTO> GetPhoneDTOs()
+        public async Task<IEnumerable<PhoneDTO>> GetPhoneDTOsAsync()
         {
-            return _context.Phones
+            return await _context.Phones
                 .Select(p => new PhoneDTO
                 {
                     Id = p.Id,
@@ -31,7 +30,7 @@ namespace Phones.BusinessLogic
                     ProducerName = p.Producer.ProducerName,
                     Price = p.Price,
                     ImgUrl = p.ImgUrl
-                }).AsNoTracking().ToList();
+                }).AsNoTracking().ToListAsync();
         }
 
         public async Task<Phone> GetPhoneByIdAsync(int id)

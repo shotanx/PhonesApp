@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Phones.Models;
 
 namespace Phones
@@ -36,7 +34,7 @@ namespace Phones
             }
         }
 
-        public static async Task<PaginatedList<T>> CreateAsync(List<T> source, PhoneSearchModel searchModel)
+        public static PaginatedList<T> Create(IEnumerable<T> source, PhoneSearchModel searchModel)
         {
             var count = source.Count();
             var items = source.Skip((searchModel.PageIndex - 1) * searchModel.PageSize).Take(searchModel.PageSize).ToList();
